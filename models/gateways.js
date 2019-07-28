@@ -6,10 +6,13 @@ var GatewaySchema = new Schema({
     type: String,
     required: true
   },
+  manufacturer: String,
+  model: String,
   location: {
     x: Number,
     y: Number,
-    z: Number
+    z: Number,
+    description: String
   },
   last_online: Date,
   mac_address: String,
@@ -19,7 +22,12 @@ var GatewaySchema = new Schema({
     }
   ],
   owner: {
-    type: Schema.Types.ObjectId
+    type: Schema.Types.ObjectId,
+    ref: 'User'
+  },
+  added: {
+    type: Date,
+    default: Date.now
   }
 });
 
