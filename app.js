@@ -1,12 +1,22 @@
-require('dotenv').config()
+require('dotenv').config();
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-
+var mongoose = require('mongoose');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var { database } = require('./config/env');
+var debug = require('debug')('accrawan-backend:app.js');
+mongoose
+  .connect(database.url, database.options)
+  .then(function() {
+    console.log('DB connected');
+  })
+  .catch(function(err) {
+    console.error(err);
+  });
 var app = express();
 var expressWs = require('express-ws')(app);
 
@@ -40,3 +50,21 @@ app.use(function(err, req, res, next) {
 });
 
 module.exports = app;
+
+// MONGOOSE DEFAULTS
+mongoose.connection.on('connected', function() {
+  debug('Mongoose default connection connected');
+});
+mongoose.connection.on('error', function(err) {
+  debug('Mongoose default connection error:' + err);
+});
+mongoose.connection.on('disconnected', function() {
+  debug('Mongoose default connection disconnected');
+});
+process.on('SIGINT', function() {
+  mongoose.connection.close(function() {
+    console.log('Mongoose default connection disconnected on app termination');
+    debug('Mongoose default connection disconnected on app termination');
+    process.exit(0);
+  });
+});
