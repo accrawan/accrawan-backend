@@ -12,7 +12,15 @@ var GatewaySchema = new Schema({
     z: Number
   },
   last_online: Date,
-  mac_address: String
+  mac_address: String,
+  keys: [
+    {
+      type: Buffer
+    }
+  ],
+  owner: {
+    type: Schema.Types.ObjectId
+  }
 });
 
 module.exports = mongoose.model('Gateway', GatewaySchema);
