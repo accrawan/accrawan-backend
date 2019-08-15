@@ -5,6 +5,7 @@ const Gateway = require('../models/gateways');
 const User = require('../models/user');
 
 router.post('/create', (req, res) => {
+  // async add gateway _id to user on save
   let { name, model, manufacturer, mac_address } = req.body;
   let newGateway = new Gateway({
     name,

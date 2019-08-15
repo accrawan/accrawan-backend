@@ -9,6 +9,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var { database } = require('./config/env');
 var debug = require('debug')('accrawan-backend:app.js');
+var passport = require('passport')
 mongoose
   .connect(database.url, database.options)
   .then(function() {
@@ -24,11 +25,13 @@ var expressWs = require('express-ws')(app);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
+app.use('./config/passport')(passport)
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(passport.initialize());
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

@@ -28,6 +28,10 @@ var GatewaySchema = new Schema({
   added: {
     type: Date,
     default: Date.now
+  },
+  isPublic: {
+    type: Boolean,
+    default: true
   }
 });
 

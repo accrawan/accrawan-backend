@@ -9,6 +9,12 @@ var UserSchema = new Schema({
       type: Schema.Types.ObjectId,
       ref: 'Gateway'
     }
+  ],
+  projects: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Project'
+    }
   ]
 });
 
