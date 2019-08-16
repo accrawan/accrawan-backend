@@ -1,7 +1,7 @@
-var express = require('express');
-var router = express.Router();
-var { loginHandler, signupHandler } = require('../lib');
-
+const express = require('express');
+const router = express.Router();
+const { loginHandler, signupHandler } = require('../lib');
+const passport = require('passport');
 router.post('/login', loginHandler);
 router.post('/signup', signupHandler);
 
@@ -11,5 +11,9 @@ router.get('/', function(req, res) {
   res.send('respond with a resource');
 });
 
-router.use('/gateway', require('./gateway'));
+router.use(
+  '/gateway',
+  passport.authenticate('jwt', { session: false }),
+  require('./gateway')
+);
 module.exports = router;
