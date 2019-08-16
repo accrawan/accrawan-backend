@@ -1,5 +1,9 @@
 var express = require('express');
 var router = express.Router();
+var { loginHandler, signupHandler } = require('../lib');
+
+router.post('/login', loginHandler);
+router.post('/signup', signupHandler);
 
 /* GET home page. */
 router.get('/', function(req, res) {

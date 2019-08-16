@@ -9,23 +9,24 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var { database } = require('./config/env');
 var debug = require('debug')('accrawan-backend:app.js');
-var passport = require('passport')
+var passport = require('passport');
+
 mongoose
   .connect(database.url, database.options)
   .then(function() {
-    console.log('DB connected');
+    debug('DB connected');
   })
   .catch(function(err) {
-    console.error(err);
+    debug(err);
   });
 var app = express();
-var expressWs = require('express-ws')(app);
+// var expressWs = require('express-ws')(app);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
-app.use('./config/passport')(passport)
+require('./config/passport')(passport);
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -42,7 +43,7 @@ app.use(function(req, res, next) {
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function(err, req, res) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -66,7 +67,6 @@ mongoose.connection.on('disconnected', function() {
 });
 process.on('SIGINT', function() {
   mongoose.connection.close(function() {
-    console.log('Mongoose default connection disconnected on app termination');
     debug('Mongoose default connection disconnected on app termination');
     process.exit(0);
   });
