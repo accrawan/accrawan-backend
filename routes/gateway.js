@@ -48,10 +48,37 @@ router.post('/create', (req, res) => {
 
 router.delete('/delete', (req, res) => {
   // async it
-  Gateway.findByIdAndDelete(req.body._id, (err, gateway) => {
-    if (err) return debug(err);
-    return res.json(gateway); // delete gateway from user collection
-  });
+  waterfall(
+    [
+      cb => {
+        Gateway.findByIdAndDelete(req.body._id, (err, gateway) => {
+          if (err) return cb(err);
+          if (!gateway) return cb(new Error('No gateway found'));
+          return cb(null, gateway); // delete gateway from user collection
+        });
+      },
+      (gateway, cb) => {
+        User.findOneAndUpdate(
+          { _id: req.user._id },
+          {
+            $pull: {
+              gateways: gateway._id
+            }
+          }
+        ).exec(err => {
+          if (err) return cb(err);
+          return cb(null, gateway);
+        });
+      }
+    ],
+    (err, result) => {
+      if (err) {
+        debug(err);
+        return res.json(err);
+      }
+      res.json(result);
+    }
+  );
 });
 
 module.exports = router;
