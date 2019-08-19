@@ -14,7 +14,7 @@ var passport = require('passport');
 mongoose
   .connect(database.url, database.options)
   .then(function() {
-    debug('DB connected');
+    debug('DB connected: ');
   })
   .catch(function(err) {
     debug(err);

@@ -4,7 +4,9 @@ module.exports = {
     options: {
       reconnectTries: Number.MAX_VALUE,
       reconnectInterval: 500,
-      useNewUrlParser: true
+      useNewUrlParser: true,
+      useFindAndModify: false,
+      useCreateIndex: true
     }
   },
   jwt: {
