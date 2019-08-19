@@ -9,6 +9,12 @@ var ProjectSchema = new Schema({
     type: Date,
     default: Date.now()
   },
+  nodes: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Node'
+    }
+  ],
   team: [
     {
       user: {
@@ -18,6 +24,11 @@ var ProjectSchema = new Schema({
       role: {
         type: 'String'
       }
+    }
+  ],
+  logs: [
+    {
+      type: Schema.Types.Mixed
     }
   ]
 });

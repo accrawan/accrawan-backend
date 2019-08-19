@@ -16,4 +16,11 @@ router.use(
   passport.authenticate('jwt', { session: false }),
   require('./gateway')
 );
+
+router.use(
+  '/project',
+  passport.authenticate('jwt', { session: false }),
+  require('./project')
+);
+
 module.exports = router;

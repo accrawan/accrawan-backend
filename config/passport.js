@@ -1,6 +1,6 @@
 const { Strategy: JwtStrategy, ExtractJwt } = require('passport-jwt');
 const User = require('../models/user');
-const {jwt} = require('./env');
+const { jwt } = require('./env');
 const debug = require('debug')('accrawan-backend:server');
 
 module.exports = passport => {
@@ -27,7 +27,7 @@ module.exports = passport => {
           if (user) return done(null, user);
           return done(new Error('No user found'));
         } catch (error) {
-          console.error(error);
+          debug(error);
           return done(error);
         }
       }

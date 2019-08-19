@@ -8,7 +8,14 @@ var NodeSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: 'User'
     },
-    stats: Array
+    project: {
+      type: Schema.Types.ObjectId,
+      ref: 'Project'
+    },
+    last_online: Date,
+    added: Date,
+    stats: Array,
+    device_id: String
   },
   {
     strict: false

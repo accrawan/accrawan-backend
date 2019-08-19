@@ -51,11 +51,14 @@ router.delete('/delete', (req, res) => {
   waterfall(
     [
       cb => {
-        Gateway.findByIdAndDelete(req.body._id, (err, gateway) => {
-          if (err) return cb(err);
-          if (!gateway) return cb(new Error('No gateway found'));
-          return cb(null, gateway); // delete gateway from user collection
-        });
+        Gateway.findOneAndDelete(
+          { _id: req.body._id, owner: req.user._id },
+          (err, gateway) => {
+            if (err) return cb(err);
+            if (!gateway) return cb(new Error('No gateway found'));
+            return cb(null, gateway);
+          }
+        );
       },
       (gateway, cb) => {
         User.findOneAndUpdate(
