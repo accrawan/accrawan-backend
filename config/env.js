@@ -9,6 +9,9 @@ module.exports = {
       useCreateIndex: true
     }
   },
+  crypt: {
+    aes_salt: process.env.AES_SALT
+  },
   jwt: {
     secret: process.env.JWT_KEY,
     key: process.env.JWT_KEY,

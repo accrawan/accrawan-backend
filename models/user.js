@@ -24,7 +24,8 @@ var UserSchema = new Schema({
   password: {
     type: Buffer,
     required: true
-  }
+  },
+  psk: Buffer
 });
 
 UserSchema.pre('save', function(next) {
