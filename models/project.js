@@ -63,4 +63,10 @@ ProjectSchema.pre('save', function(next) {
   }
 });
 
+ProjectSchema.methods.decryptApiKey = function(key, cb) {
+  var CryptoJS = require('crypto-js');
+  var bytes = CryptoJS.AES.decrypt(key, crypt.aes_salt);
+  var plaintext = bytes.toString(CryptoJS.enc.Utf8);
+  return cb(null, plaintext);
+};
 module.exports = mongoose.model('Project', ProjectSchema);
